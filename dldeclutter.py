@@ -87,6 +87,7 @@ DOWNLOAD_PATH = os.path.join(BASE_PATH, 'Downloads')
 # Vogliamo controllare i cambiamenti sulla cartella osservata. 
 class FileHandler(FileSystemEventHandler):
     def on_modified(self, event):
+        time.sleep(2)
         move_files()
 
 # Istanza della classe che si occupa di controllare le modifiche.
