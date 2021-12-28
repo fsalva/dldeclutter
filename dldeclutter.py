@@ -15,9 +15,15 @@ COMPR_FILES = ['zip', '7z', 'z', 'pkg','rar', 'tar']
 
 DEST_DIRS = ['Music', 'Movies', 'Pictures', 'Documents', 'Applications', 'Other', 'Random'] 
 
+def rename_file(ext_type, file_name, destination_folder) :
+    TIMESTAMP = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    name = file_name.split('.')[0]
+    name = str(name) + "-" + TIMESTAMP + "." + ext_type
+
+    os.rename(os.path.join(DOWNLOAD_PATH, file_name), os.path.join(BASE_PATH, destination_folder, name)) 
+
 def move_files() :
 
-    TIMESTAMP = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
 
     for d in DEST_DIRS:
         dir_path = os.path.join(BASE_PATH, d)
@@ -37,46 +43,23 @@ def move_files() :
     for f_ext, f_list in files_mapping.items() :
         if f_ext in AUDIO_FILES :
             for file in f_list :
-                name = file.split('.')[0]
-                name = str(name) + "-" + TIMESTAMP + "." + f_ext
-
-                os.rename(
-                    os.path.join(DOWNLOAD_PATH, file), 
-                    os.path.join(BASE_PATH, 'Music', name))
+                rename_file(f_ext, file, 'Music')
 
         elif f_ext in DOCS_FILES or f_ext in COMPR_FILES:
             for file in f_list :
-                name = file.split('.')[0]
-                name = str(name) + "-" + TIMESTAMP + "." + f_ext
-                os.rename(
-                    os.path.join(DOWNLOAD_PATH, file), 
-                    os.path.join(BASE_PATH, 'Documents',  name))
+                rename_file(f_ext, file, 'Documents')
         
         elif f_ext in VIDEO_FILES :
             for file in f_list :
-                name = file.split('.')[0]
-                name = str(name) + "-" + TIMESTAMP + "." + f_ext
-
-                os.rename(
-                    os.path.join(DOWNLOAD_PATH, file), 
-                    os.path.join(BASE_PATH, 'Movies', name))
+                rename_file(f_ext, file, 'Videos')
 
         elif f_ext in IMAGE_FILES :
             for file in f_list :
-                name = file.split('.')[0]
-                name = str(name) + "-" + TIMESTAMP + "." + f_ext
-
-                os.rename(
-                    os.path.join(DOWNLOAD_PATH, file), 
-                    os.path.join(BASE_PATH, 'Pictures', name))
+                rename_file(f_ext, file, 'Pictures')
         
         else:
             for file in f_list :
-                name = file.split('.')[0]
-                name = str(name) + "-" + TIMESTAMP + "." + f_ext
-                os.rename(
-                    os.path.join(DOWNLOAD_PATH, file), 
-                    os.path.join(BASE_PATH, 'Other', name))
+                rename_file(f_ext, file, 'Other')
 
 # Path home 
 BASE_PATH = os.path.expanduser('~')
